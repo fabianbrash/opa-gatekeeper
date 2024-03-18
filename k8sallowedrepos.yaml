@@ -20,3 +20,4 @@ spec:
           not startswith(container.image, "harbor.fbclouddemo.us/")
           msg := sprintf("image '%v' comes from an unapproved registry", [container.image])
           missing := container.image
+        }
