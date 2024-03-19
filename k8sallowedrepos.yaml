@@ -17,7 +17,19 @@ spec:
 
         violation[{"msg": msg, "details": {"missing": missing}}] {
           container := input.review.object.spec.containers[_]
-          not startswith(container.image, "harbor.fbclouddemo.us/")
+          not allowed_registry(container.image)
           msg := sprintf("image '%v' comes from an unapproved registry", [container.image])
           missing := container.image
+        }
+
+        allowed_registry(image) {
+          startswith(image, "harbor.fbclouddemo.us/")
+        }
+
+        allowed_registry(image) {
+          startswith(image, "registry.rafay-edge.net/")
+        }
+
+        allowed_registry(image) {
+          regex.match(`.*\.azurecr\.io/`, image)
         }
